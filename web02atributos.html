@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Document</title>
+  <style>
+    img {
+      width: 250px;
+      height: 150px;
+      object-fit: cover;
+    }
+  </style>
+</head>
+
+<body>
+  <img src="images/sunset.jpg" alt="" />
+  <img src="images/galaxy.jpg" alt="" />
+  <img src="images/milky-way-2695569_1280.jpg" alt="" />
+  <img src="images/hills.jpg" alt="" />
+  <script src="js/jquery-3.7.1.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("img").mouseover(function () {
+        $(this).attr("src", "images/hills-2836301_1280.jpg")
+      })
+      $("img").mouseout(function () {
+        $(this).attr("src", "images/sunset-3689760_1280.jpg")
+      })
+      $("img").click(function () {
+        var imagen = $(this).attr("src")
+        console.log("pulsando sobre: " + imagen)
+        //   $(this).attr("src", "images/sunset-3689760_1280.jpg")
+        if (imagen == "images/hills-2836301_1280.jpg") {
+          console.log("pulsando if")
+        } else {
+          console.log("pulsando else")
+        }
+      })
+    })
+  </script>
+</body>
+
+</html>

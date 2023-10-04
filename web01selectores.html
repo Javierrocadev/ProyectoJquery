@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1 {
+        text-align: center;
+        font-size: 50px;
+        font-weight: bold;
+        color: rgb(53, 122, 122);
+        text-shadow: 2px 2px 2px #342123;
+      }
+      .azul {
+        background-color: rgb(31, 60, 122);
+        color: aliceblue;
+      }
+      p {
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>selectores jquery</h1>
+    <button id="boton1">Pulsar para algo..</button>
+    <button class="azul">soy un boton azul</button>
+    <p>aprendiendo jquery 1</p>
+    <p>aprendiendo jquery 2</p>
+    <p>aprendiendo jquery 3</p>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+      //primero cargar los componentes al iniciar la página
+      $(document).ready(function () {
+        //carga los componentes
+        //ocultar elementos
+        $("h1").hide()
+        $("#boton1").hide()
+        //asociar eventos
+        $("p").click(function () {
+          //IMPRESCINDIBLE PARA EL DESARROLLO RONT
+          // -----------VISUALIZAR ACCIONES EN EL EXPLORADOR WEB---------------
+          console.log("hola")
+          //   $("#boton1").show()
+
+          //palabra clave THIS
+          // accede al objeto que ha realizado la llamada
+          $(this).hide()
+        })
+      })
+    </script>
+  </body>
+</html>

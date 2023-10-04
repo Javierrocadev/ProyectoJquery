@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 300px;
+            background-color: rgb(31, 174, 222);
+            padding: 15px;
+            color: aliceblue;
+            border-radius: 15px;
+        }
+
+        #toAdd {
+            border-radius: 5px;
+        }
+
+        #Add {
+            border-radius: 5px;
+        }
+
+        .elementList {
+            height: 30px;
+            padding: 5px;
+        }
+
+        .elementList:nth-child(even) {
+            background-color: rgb(13, 130, 181);
+            color: rgb(0, 0, 0);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Lista </h1>
+
+        <input type="text" id="toAdd">
+        <button id="Add">Añadir</button>
+
+        <ol id="lista">
+        </ol>
+    </div>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#Add").click(function () {
+                // var toAdd = $("#toAdd").val();
+                var toAdd = $("<li>", {
+                    "text": $('#toAdd').val(),
+                    "class": "elementList"
+                })
+
+
+                var boton = $("<button>", {
+                    "text": parseInt(Math.random() * 100),
+                    "class": "btn btn-primary"
+                })
+                // $("ol").append("<li> " + toAdd + "</li>")
+                $("ol").append(toAdd)
+            });
+        });
+    </script>
+
+</body>
+
+</html>
