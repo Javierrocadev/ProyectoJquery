@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>coches</h1>
+    <p>seleccione</p>
+    <select name="selectcoche" id="selectcoche">
+    </select>
+    <buttton id="botoncoche">ver</buttton>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            //precarga
+            $.get("documents/coches.xml", function (data) {
+                var html = "";
+                $(data).find("coche").each(function () {
+                    var marca = $(this).find("marca").text();
+                    html += "<option value=" + marca + ">" + marca + "</option>";
+                })
+                $("#selectcoche").html(html);
+            })
+            //al selecionar el select
+            $("#botoncoche").click(function () {
+                var marcaelegida = $("select[name='selectcoche'] option:selected").text();
+                console.log(marcaelegida)
+                $.get("documents/coches.xml", function (data) {
+                    var html = ""
+                    $(data).find("coche").each(function () {
+                        var marca = $(this).find("marca").text();
+                        var modelo = $(data).find("modelo").text();
+                        var imagen = $(data).find("imagen").text();
+                        console.log(imagen)
+                        if (marca == marcaelegida) {
+                            //realizamos el dibujo
+                            var img = ("<img>", {
+                                src: imagen
+                            })
+                        }
+                    })
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>
