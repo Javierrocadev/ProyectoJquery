@@ -16,7 +16,7 @@
 <body>
     <main>
         <h1>Generar imágenes</h1>
-        <input type="range" id="rango" min="1" value="1" max="10">
+        <input type="range" id="rango" min="1" value="1" max="50">
         <div class="container" id="container"></div>
         <h1>resultado</h1>
         <div id="containerBtn"></div>
@@ -28,12 +28,17 @@
             $('#rango').change(function () {
                 var numimagenes = parseInt($(this).val())
                 $("#container").text("")
-                for (var i = 0; i <= numimagenes; i++) {
+                $("#containerBtn").text("")
+                $("#containerImg").text("")
+                cont = 0
+                for (let i = 1; i <= numimagenes; i++) {
+                    cont++
                     var boton = $("<button>", {
                         "text": "imagen " + (i + 1),
                         "class": "btn btn-primary",
                         "value": i
                     })
+
                     //añadir boton
                     $("#containerBtn").append(boton)
                     var img = $("<img>", {
@@ -47,18 +52,6 @@
                         var idboton = $(this).val()
                         console.log(idboton)
                         $("#" + $(this).val()).attr("src", "images/ocean.jpg")
-                        //$(this).attr("src", "images/ocean.jpg")
-
-                        // for (let i = 0; i < numimagenes; i++) {
-
-                        //     if ($(this).is(":checked") == true) {
-                        //         for (let j = 0; j < numimagenes; j++) {
-                        //             if (j == i) {
-                        //                 img.attr("src", "images/ocean.jpg")
-                        //             }
-                        //         }
-                        //     }
-                        // }
                     });
 
                 }
@@ -68,3 +61,5 @@
 </body>
 
 </html>
+
+<!-- //codewars -->
