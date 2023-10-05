@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Filtros XML departamentos</h1>
+
+    <label for="">introduzca id a buscar</label>
+    <input type="text" id="cajaid">
+    <button type="text" name="" id="botonbuscarid">Buscar departamento</button>
+    <hr>
+    <label for="">introducza localidad</label>
+    <input type="text" name="" id="cajalocalidad">
+    <button id="botonbuscarlocalidad">buscar localidad</button>
+    <table id="tabladepartamentos">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#botonbuscarid").click(function () {
+                var id = $("#cajaid").val()
+                $.get("documents/departamentos.xml", function (data) {
+                    console.log("leyendo servicio");
+                    var html = ""
+                    html += "<tr>"
+                    //necesitamos filtrar por atributo
+                    //DEPT[DEPT_NO=10]
+                    var filtro = "DEPT[DEPT_NO=" + id + "]"
+                    //como solo hay 1 id no hacemos each
+                    var nododept = $(data).find(filtro).first()
+                    console.log(nododept)
+                    var nombre = $(nododept).find("DNOMBRE").text()
+                    console.log(nombre)
+                    var localidad = $(nododept).find("LOC").text()
+                    console.log(localidad)
+                    var numero = $(nododept).attr("DEPT_NO")
+                    console.log(numero)
+                    html += "<td>" + numero + "</td>"
+                    html += "<td>" + nombre + "</td>"
+                    html += "<td>" + localidad + "</td>"
+                    html += "</tr>"
+                    $("#tabladepartamentos tbody").html(html)
+                })
+
+            })
+            $("#botonbuscarlocalidad").click(function () {
+                var localidad = $("#cajalocalidad").val()
+                $.get("documents/departamentos.xml", function (data) {
+                    console.log("leyendo servicio");
+                    var html = ""
+                    html += "<tr>"
+                    var filtro = "LOC:contains(" + localidad + ")"
+                    if ($(data).find(filtro).length == 0) {
+
+                    }
+                    //REVISAR
+                    else {
+
+                    }
+                    //REVISAR
+                    $(data).find(filtro).each(function () {
+                        var nodopadre = $(this).parent()
+                        console.log(nodopadre)
+                        var contenido = $(nodopadre).find("DNOMBRE").text()
+                        console.log(contenido)
+                        var contenido = $(nodopadre).find("DNOMBRE").text()
+
+                        html += "<td>" + numero + "</td>"
+                        html += "<td>" + nombre + "</td>"
+                        html += "<td>" + localidad + "</td>"
+                        html += "</tr>"
+                    })
+                    $("#tabladepartamentos tbody").html(html)
+                })
+            })
+        });
+    </script>
+</body>
+
+</html>
