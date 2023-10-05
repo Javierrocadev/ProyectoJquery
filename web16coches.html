@@ -33,14 +33,16 @@
                     var html = ""
                     $(data).find("coche").each(function () {
                         var marca = $(this).find("marca").text();
-                        var modelo = $(data).find("modelo").text();
-                        var imagen = $(data).find("imagen").text();
-                        console.log(imagen)
+                        console.log(marca)
+                        // var modelo = $(this).find("modelo").text();
+                        // var imagen = $(this).find("imagen").text();
+                        // console.log(imagen)
                         if (marca == marcaelegida) {
+                            console.log("true")
                             //realizamos el dibujo
-                            var img = ("<img>", {
-                                src: imagen
-                            })
+                            // var img = ("<img>", {
+                            //     src: imagen
+                            // })
                         }
                     })
                 })
