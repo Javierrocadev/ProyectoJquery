@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .img-responsive {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <h1>Generar imágenes</h1>
+        <input type="range" id="rango" min="1" value="1" max="10">
+        <div class="container" id="container"></div>
+        <h1>resultado</h1>
+        <div id="containerBtn"></div>
+        <div id="containerImg"></div>
+    </main>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#rango').change(function () {
+                var numimagenes = parseInt($(this).val())
+                $("#container").text("")
+                for (var i = 0; i <= numimagenes; i++) {
+                    var boton = $("<button>", {
+                        "text": "imagen " + (i + 1),
+                        "class": "btn btn-primary",
+                        "value": i
+                    })
+                    //añadir boton
+                    $("#containerBtn").append(boton)
+                    var img = $("<img>", {
+                        "src": "images/hills.jpg",
+                        "class": "img-responsive",
+                        "id": i
+                    })
+                    $("#containerImg").append(img)
+                    boton.click(function () {
+                        //funcionalidad boton
+                        var idboton = $(this).val()
+                        console.log(idboton)
+                        $("#" + $(this).val()).attr("src", "images/ocean.jpg")
+                        //$(this).attr("src", "images/ocean.jpg")
+
+                        // for (let i = 0; i < numimagenes; i++) {
+
+                        //     if ($(this).is(":checked") == true) {
+                        //         for (let j = 0; j < numimagenes; j++) {
+                        //             if (j == i) {
+                        //                 img.attr("src", "images/ocean.jpg")
+                        //             }
+                        //         }
+                        //     }
+                        // }
+                    });
+
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

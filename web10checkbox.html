@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <h1>Generar imágenes</h1>
+    <input type="range" id="rango" min="1" value="1" max="50">
+    <div class="container" id="container"></div>
+    <h1>resultado</h1>
+    <p id="resultado"></p>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // var temp = 0;
+            // var temp = $("#resultado").val()
+            // $("#resultado").text(temp)
+            var resultado = 0
+            $('#rango').change(function () {
+                var numbox = parseInt($(this).val())
+                //limpiamos el contenido del parent
+                $("#contenedor").text("")
+                for (var i = 0; i <= numbox; i++) {
+
+
+                    var value = parseInt(Math.random() * 100)
+                    console.log(value)
+                    var box = $("<input >", {
+                        "value": value,
+                        "type": "checkbox"
+                    })
+                    var label = $("<label>", {
+                        "text": value
+                    })
+                    $("#container").append(box)
+                    $("#container").append(label)
+                    box.change(function () {
+                        //var resultado = 0
+                        // var resultado = parseInt($("#resultado").val())
+                        // //debemos preguntar por el valor del box
+
+                        if ($(this).is(":checked") == true) {
+                            var valor = parseInt($(this).val())
+                            resultado = resultado + valor
+                        }
+                        else {
+                            var valor = parseInt($(this).val())
+                            resultado = resultado - valor
+                        }
+                        $("#resultado").text(resultado)
+                    })
+
+
+                    var checkeada = $("box").is(":checked")
+
+
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
