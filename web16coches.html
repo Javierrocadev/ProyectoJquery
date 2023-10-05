@@ -13,6 +13,7 @@
     <select name="selectcoche" id="selectcoche">
     </select>
     <buttton id="botoncoche">ver</buttton>
+    <div class="" id="imagen"></div>
     <script src="js/jquery-3.7.1.min.js"></script>
     <script>
         $(document).ready(function () {
@@ -34,17 +35,19 @@
                     $(data).find("coche").each(function () {
                         var marca = $(this).find("marca").text();
                         console.log(marca)
-                        // var modelo = $(this).find("modelo").text();
-                        // var imagen = $(this).find("imagen").text();
-                        // console.log(imagen)
+                        // var modelo = $(this).find("modelo").text();                   
                         if (marca == marcaelegida) {
+                            var imagen = $(this).find("imagen").text();
                             console.log("true")
                             //realizamos el dibujo
-                            // var img = ("<img>", {
-                            //     src: imagen
-                            // })
+                            var img = ("<img>", {
+                                "src": imagen
+                            })
+                            html += img
                         }
                     })
+                    $("#imagen").html(html)
+
                 })
             })
         })
