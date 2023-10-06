@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>CRUD DEPARTAMENTOS XML</h1>
+    <label for="">Id departamentos</label>
+    <input type="text" class="text" id="cajanumero">
+    <label for="">Nombre departamentos</label>
+    <input type="text" name="" id="cajanombre">
+    <label for="">Localidad</label>
+    <input type="text" name="" id="cajalocalidad">
+    <button id="botoninsert">Insertar</button>
+    <button id="botonupdate">Update</button>
+    <button id="botondelete">Delete</button><br>
+    <table id="tabladepartamentos" border="1">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Nombre</th>
+                <th>Localidad</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        var urlDepartamentos = "https://apicruddepartamentosxml.azurewebsites.net/"
+        $(document).ready(function () {
+            loadDepartamentos()
+            $("#botoninsert").click(function () {
+                var id = $("#cajanumero").val();
+                var nombre = $("#cajanombre").val();
+                var localidad = $("#cajalocalidad").val();
+                // el siguiente paso es tener la info 
+                // en formato del servicio que, en este ejemplo
+                // es XML
+                var dataXML = "<Departamento>"
+                    + "<IdDepartamento>" + id + "</IdDepartamento>"
+                    + "<Nombre>" + nombre + "</Nombre>"
+                    + "<Localidad>" + localidad + "</Localidad>"
+                    + "</Departamento>"
+                var request = "api/departamentos"
+                $.ajax({
+                    url: urlDepartamentos + request,
+                    type: "POST",
+                    contentType: "text/xml",
+                    data: dataXML,
+                    success: function () {
+                        console.log("insertado correctamente")
+                        loadDepartamentos()
+                    }
+                })
+
+            })
+
+        });
+        function loadDepartamentos() {
+            //en cada metodo usamos nuestro request  
+            var request = "api/departamentos"
+            var html = ""
+            $.get(urlDepartamentos + request, function (data) {
+                console.log("leyendo servicio")
+
+                $(data).find("Departamento").each(function () {
+                    var id = $(this).find("IdDepartamento").text()
+                    var nombre = $(this).find("Nombre").text()
+                    var localidad = $(this).find("Localidad").text()
+
+                    html += "<tr>"
+                    html += "<td>" + id + "</td>"
+                    html += "<td>" + nombre + "</td>"
+                    html += "<td>" + localidad + "</td>"
+                    html += "</tr>"
+
+                })
+                console.log(html)
+                $("#tabladepartamentos tbody").html(html)
+            })
+        }
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .listabotones {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3px;
+        }
+
+        button {
+            height: 60px;
+            color: aliceblue;
+            background-color: rgb(42, 150, 222);
+            border: none;
+            box-shadow: inset 4px 4px 10px black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>lista clientes</h1>
+    <div class="listabotones">
+
+    </div>
+    <div class="persona">
+
+    </div>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.get("/documents/clientes.xml", function (data) {
+                var html = ""
+                console.log("dentro")
+                $(data).find("CLIENTE").each(function () {
+                    var nombre = $(this).find("NOMBRE").text();
+                    var id = $(this).attr("IDCLIENTE")
+                    html += "<button value=" + id + ">" + nombre + "</button>"
+                })
+                $(".listabotones").append(html)
+                $("button").click(function () {
+                    $(".persona").text("")
+                    var html = ""
+                    var idvalue = $(this).val();
+                    console.log(idvalue)
+                    $.get("/documents/clientes.xml", function (data) {
+                        filtro = "CLIENTE[IDCLIENTE=" + idvalue + "]"
+                        console.log(filtro)
+                        var nodocliente = $(data).find(filtro).first()
+                        console.log(nodocliente)
+                        var imagen = $(nodocliente).find("IMAGENCLIENTE").text()
+                        var nombre = $(nodocliente).find("NOMBRE").text()
+                        var direccion = $(nodocliente).find("DIRECCION").text()
+                        var email = $(nodocliente).find("EMAIL").text()
+                        var cpostal = $(nodocliente).find("CODIGOPOSTAL").text()
+                        var email = $(nodocliente).find("EMAIL").text()
+                        var pag = $(nodocliente).find("PAGINAWEB").text()
+
+                        console.log(direccion)
+
+                        $(".persona").append("<p>" + nombre + "</p>")
+                        $(".persona").append("<p>" + direccion + "</p>")
+                        $(".persona").append("<p>" + email + "</p>")
+                        $(".persona").append("<p>" + cpostal + "</p>")
+                        $(".persona").append("<p>" + email + "</p>")
+                        $(".persona").append("<p>" + pag + "</p>")
+                        $(".persona").append("<img src='" + imagen + "'>")
+
+
+                    })
+
+                })
+            });
+
+
+        })
+    </script>
+</body>
+
+</html>
