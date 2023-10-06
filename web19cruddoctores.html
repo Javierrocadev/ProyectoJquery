@@ -9,11 +9,31 @@
         tr:nth-child(even) {
             background-color: rgb(127, 179, 232);
         }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+        }
     </style>
 </head>
 
 <body>
+    <div class="container">
+        <h1>CRUD DOCTORES XML</h1>
+        <label for="">apellido</label>
+        <input type="text" name="" id="cajaapellido">
+        <label for="">especialidad</label>
+        <input type="text" class="text" id="cajaespecialidad">
+        <label for="">id</label>
+        <input type="text" name="" id="cajaid">
+        <label for="">salario</label>
+        <input type="text" name="" id="cajasalario">
+        <button id="botoninsert">Insertar</button>
+        <button id="botonupdate">Update</button>
+        <button id="botondelete">Delete</button><br>
 
+    </div>
     <table id="tabladoctores" border="1">
         <thead>
             <tr>
@@ -30,6 +50,7 @@
         var urlDoctores = "https://apicruddoctoresxml.azurewebsites.net/"
         $(document).ready(function () {
             loadDoctores()
+
         });
         function loadDoctores() {
             var request = "api/doctores"
