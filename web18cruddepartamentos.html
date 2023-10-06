@@ -40,11 +40,7 @@
                 // el siguiente paso es tener la info 
                 // en formato del servicio que, en este ejemplo
                 // es XML
-                var dataXML = "<Departamento>"
-                    + "<IdDepartamento>" + id + "</IdDepartamento>"
-                    + "<Nombre>" + nombre + "</Nombre>"
-                    + "<Localidad>" + localidad + "</Localidad>"
-                    + "</Departamento>"
+                var dataXML = getDepartamentoXML(id, nombre, localidad)
                 var request = "api/departamentos"
                 $.ajax({
                     url: urlDepartamentos + request,
@@ -58,7 +54,35 @@
                 })
 
             })
-
+            $("#botonupdate").click(function () {
+                var id = $("#cajanumero").val();
+                var nombre = $("#cajanombre").val();
+                var localidad = $("#cajalocalidad").val()
+                var dataXML = getDepartamentoXML(id, nombre, localidad)
+                var request = "api/departamentos"
+                $.ajax({
+                    url: urlDepartamentos + request,
+                    type: "PUT",
+                    contentType: "text/xml",
+                    data: dataXML,
+                    success: function () {
+                        console.log("modificado ok")
+                        loadDepartamentos()
+                    }
+                })
+            })
+            $("#botondelete").click(function () {
+                var id = $("#cajanumero").val();
+                var request = "api/departamentos/" + id
+                $.ajax({
+                    url: urlDepartamentos + request,
+                    type: "DELETE",
+                    success: function () {
+                        console.log("eliminado ok")
+                        loadDepartamentos()
+                    }
+                })
+            });
         });
         function loadDepartamentos() {
             //en cada metodo usamos nuestro request  
@@ -82,6 +106,14 @@
                 console.log(html)
                 $("#tabladepartamentos tbody").html(html)
             })
+        }
+        function getDepartamentoXML(id, nombre, localidad) {
+            var dataXML = "<Departamento>"
+                + "<IdDepartamento>" + id + "</IdDepartamento>"
+                + "<Nombre>" + nombre + "</Nombre>"
+                + "<Localidad>" + localidad + "</Localidad>"
+                + "</Departamento>"
+            return dataXML;
         }
     </script>
 </body>
