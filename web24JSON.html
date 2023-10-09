@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <main>
+        <div id="departamentos"></div>
+        <table id="tablaempleados" border="1">
+            <thead>
+                <tr>
+                    <th>Id empleado</th>
+                    <th>apellido</th>
+                    <th>ofcio</th>
+                    <th>salario</th>
+                    <th>departa</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        var urlDepartamentos = "https://apicruddepartamentoscore.azurewebsites.net/"
+        var urlEmpleados = "https://apiempleadosspgs.azurewebsites.net/"
+        $(document).ready(function () {
+            var request = "api/Departamentos";
+            $.getJSON(urlDepartamentos + request, function (data) {
+                var html = "";
+                var i = 0
+                $.each(data, function (index, departamento) {
+                    var enlace = $("<a>", {
+                        "href": "#",
+                        "text": "Empleados",
+                        "class": "enlace",
+                        // "value": departamento.nombre
+                        "value": departamento.numero
+                    })
+                    i++
+                    var parrafo = $("<p>", {
+                        "text": departamento.nombre
+                    })
+                    $("#departamentos").append(parrafo)
+                    $("#departamentos").append(enlace)
+                });
+                $(".enlace").click(function () {
+                    var departamentoelegido = parseInt($(this).attr("value"))
+                    console.log(departamentoelegido)
+                    var request = "api/Empleados/EmpleadosDepartamento/" + departamentoelegido
+                    $.getJSON(urlEmpleados + request, function (data) {
+                        var html = ""
+                        $.each(data, function (key, empleado) {
+                            console.log(empleado.departamento)
+
+                            html += "<tr>"
+                                + "<td>" + empleado.idEmpleado + "</td>"
+                                + "<td>" + empleado.apellido + "</td>"
+                                + "<td>" + empleado.oficio + "</td>"
+                                + "<td>" + empleado.salario + "</td>"
+                                + "<td>" + empleado.departamento + "</td>"
+                                + "</tr>"
+                            console.log(html);
+
+
+
+                        })
+                        $("#tablaempleados tbody").html(html)
+                    })
+
+                    //mi version en la qu no me doy cuenta que se puede hacer con {departamento}
+
+                    // var departamentoelegido = parseInt($(this).attr("value"))
+                    // console.log(departamentoelegido)
+                    // var request = "api/Empleados"
+                    // $.getJSON(urlEmpleados + request, function (data) {
+                    //     var html = ""
+                    //     $.each(data, function (key, empleado) {
+                    //         console.log(empleado.departamento)
+                    //         if (departamentoelegido == empleado.departamento) {
+                    //             html += "<tr>"
+                    //                 + "<td>" + empleado.idEmpleado + "</td>"
+                    //                 + "<td>" + empleado.apellido + "</td>"
+                    //                 + "<td>" + empleado.oficio + "</td>"
+                    //                 + "<td>" + empleado.salario + "</td>"
+                    //                 + "<td>" + empleado.departamento + "</td>"
+                    //                 + "</tr>"
+                    //             console.log(html);
+                    //         }
+                    //         else {
+                    //             console.log("no entra");
+                    //         }
+
+                    //     })
+                    //     $("#tablaempleados tbody").html(html)
+                    // })
+                })
+            });
+        });
+    </script>
+</body>
+
+</html>
