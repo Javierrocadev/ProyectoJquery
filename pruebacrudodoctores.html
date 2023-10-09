@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        tr:nth-child(even) {
+            background-color: rgb(127, 179, 232);
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CRUD DOCTORES XML</h1>
+    <div class="container">
+        <select name="selecthospital" id="selecthospital"></select>   
+    </div>
+    <table id="tabladepartamentos" border="1">
+    <table id="tabladoctores" border="1">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Especialidad</th>
+                <th>Id doctor</th>
+                <th>Id Hospital</th>
+                <th>Salario</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        var urlDoctores = "https://apicruddoctoresxml.azurewebsites.net/"
+        $(document).ready(function () {
+            loadDoctores()
+
+            $("#selecthospital").change(function () {
+                //1 variables de caja apellido, especialidad, idDoctor, IdHospital, salario
+                var apellido =$("#cajaapellido").val()
+                var especialidad =$("#cajaespecialidad").val()
+                var idDoctor =$("#cajaiddoctores").val()
+                var IdHospital =$("#cajaidhospital").val()
+                var salario =$("#cajasalario").val()
+                //2 sacar el formato como vamos a sacar los datos
+                var dataXML = getDoctoresXML(apellido, especialidad, idDoctor, IdHospital, salario)
+                console.log(dataXML)
+                //3  request : donde lo vamos a usar
+                var request = "api/doctores"
+                //ajax URL TYPE CONTENTTYPE SUCCESS DATA
+                $.ajax({
+                    url: urlDoctores + request,
+                    type: "POST",
+                    contentType: "text/xml",
+                    data: dataXML,
+                    success: function(){
+                        console.log("insertado correctamente")
+                        loadDoctores()
+                    }
+                })
+            })
+            $("#botonupdate").click(function(){
+                var apellido =$("#cajaapellido").val()
+                var especialidad =$("#cajaespecialidad").val()
+                var idDoctor =$("#cajaiddoctores").val()
+                var IdHospital =$("#cajaidhospital").val()
+                var salario =$("#cajasalario").val()
+
+                var dataXML = getDoctoresXML(apellido, especialidad, idDoctor, IdHospital, salario)
+                console.log(dataXML)
+                var request = "api/doctores"
+                $.ajax({
+                    url: urlDoctores+ request,
+                    type: "PUT",
+                    data: dataXML,
+                    contentType: "text/xml",
+                    success:function(){
+                        console.log("Success update");
+                        loadDoctores()
+                    }
+                })
+            })
+
+
+            $("#botondelete").click(function(){
+                var apellido =$("#cajaapellido").val()
+                var especialidad =$("#cajaespecialidad").val()
+                var idDoctor =$("#cajaiddoctores").val()
+                var IdHospital =$("#cajaidhospital").val()
+                var salario =$("#cajasalario").val()
+                var dataXML = getDoctoresXML(apellido, especialidad, idDoctor, IdHospital, salario)
+                var request = "api/doctores/"+idDoctor
+                $.ajax({
+                    url: urlDoctores+request,
+                    type: "DELETE",
+                    data:dataXML,
+                    contentType: "text/xml",
+                    success: function(){
+                        console.log("success delete request")
+                        loadDoctores()
+                    }
+                })
+
+
+
+            })
+        });
+        function loadDoctores() {
+            var hospitales =[]
+            var request = "api/doctores"
+            var html = ""
+            var opt =""
+            $.get(urlDoctores + request, function (data) {
+                console.log("url es correcta")
+
+                // var opcionesselect = $(data).filter((item, index)=>{
+                //     return $(data).indexOf(item) === index
+                // })
+                // console.log(opcionesselect)
+                $(data).find("Doctor").each(function () {
+                    var apellido = $(this).find("Apellido").text()
+                    var especialidad = $(this).find("Especialidad").text()
+                    var idDoctor = $(this).find("IdDoctor").text()
+                    var IdHospital = $(this).find("IdHospital").text()
+                    var salario = $(this).find("Salario").text()
+                    hospitales.push(IdHospital)
+                    console.log(hospitales)
+
+
+                    // if ($(hospitales).find(IdHospital)){
+                    //     hospitales.push(IdHospital)
+                    //     console.log(hospitales)
+                    // }
+                    html += "<tr>"
+                    html += "<td>" + apellido + "</td>"
+                    html += "<td>" + especialidad + "</td>"
+                    html += "<td>" + idDoctor + "</td>"
+                    html += "<td>" + IdHospital + "</td>"
+                    html += "<td>" + salario + "</td>"
+                    html += "</tr>"
+                })
+                $("#tabladoctores tbody").append(html)
+                const opcionesselect =hospitales.filter((item, index)=>{
+                    return hospitales.indexOf(item) === index
+                })
+                opcionesselect.forEach(function(data){
+                    opt+="<option>"+data+"</option>"
+                    
+                    
+                })
+                console.log(opcionesselect);
+                $("#selecthospital").append(opt);
+            })
+        }
+        function getDoctoresXML(apellido, especialidad, idDoctor, IdHospital, salario) { 
+            var dataXML="<Doctor>"
+                + "<Apellido>"+ apellido+"</Apellido>"
+                + "<Especialidad>"+especialidad +"</Especialidad>"
+                + "<IdDoctor>"+ idDoctor+"</IdDoctor>"
+                + "<IdHospital>"+ IdHospital+"</IdHospital>"
+                + "<Salario>"+salario +"</Salario>"
+            +"</Doctor>"
+            return dataXML
+        }
+    </script>
+</body>
+
+</html>
