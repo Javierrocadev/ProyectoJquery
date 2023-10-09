@@ -24,6 +24,9 @@
                 });
             })
             $("#selectoficios").change(function () {
+                var seleccionado = $("#selectoficios").find(":selected").val()
+                console.log(seleccionado)
+                var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" + seleccionado
 
             })
         });
