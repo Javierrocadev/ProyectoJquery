@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>tareas logic app</h1>
+    <select name="selectoficios" id="selectoficios"></select>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script>
+        var urlEmpleadosaction = "https://apiempleadosaction.azurewebsites.net/"
+
+        $(document).ready(function () {
+            var request = "api/Empleados/GetOficios/oficios"
+            $.getJSON(urlEmpleadosaction + request, function (data) {
+                //-----------------------IMPORTANTE-----------------------
+
+                $.each(data, function (key, value) {
+                    $("#selectoficios").append("<option value=" + value + ">" + value + " </option>")
+                });
+            })
+            $("#selectoficios").change(function () {
+
+            })
+        });
+    </script>
+</body>
+
+</html>
