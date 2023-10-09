@@ -21,21 +21,8 @@
 <body>
     <h1>CRUD DOCTORES XML</h1>
     <div class="container">
-        <label for="">Apellido</label>
-        <input type="text" name="" id="cajaapellido">
-        <label for="">Nombre especialidad</label>
-        <input type="text" name="" id="cajaespecialidad">
-        <label for="">Id doctores</label>
-        <input type="text" class="text" id="cajaiddoctores">
-        <label for="">Id Hospital</label>
-        <input type="text" class="text" id="cajaidhospital">
-        <label for="">Salario</label>
-        <input type="text" class="text" id="cajasalario">
+        <select name="selecthospital" id="selecthospital"></select>   
     </div>
-
-    <button id="botoninsert">Insertar</button>
-    <button id="botonupdate">Update</button>
-    <button id="botondelete">Delete</button><br>
     <table id="tabladepartamentos" border="1">
     <table id="tabladoctores" border="1">
         <thead>
@@ -54,7 +41,8 @@
         var urlDoctores = "https://apicruddoctoresxml.azurewebsites.net/"
         $(document).ready(function () {
             loadDoctores()
-            $("#botoninsert").click(function () {
+
+            $("#selecthospital").change(function () {
                 //1 variables de caja apellido, especialidad, idDoctor, IdHospital, salario
                 var apellido =$("#cajaapellido").val()
                 var especialidad =$("#cajaespecialidad").val()
@@ -125,17 +113,31 @@
             })
         });
         function loadDoctores() {
+            var hospitales =[]
             var request = "api/doctores"
             var html = ""
+            var opt =""
             $.get(urlDoctores + request, function (data) {
                 console.log("url es correcta")
+
+                // var opcionesselect = $(data).filter((item, index)=>{
+                //     return $(data).indexOf(item) === index
+                // })
+                // console.log(opcionesselect)
                 $(data).find("Doctor").each(function () {
                     var apellido = $(this).find("Apellido").text()
                     var especialidad = $(this).find("Especialidad").text()
                     var idDoctor = $(this).find("IdDoctor").text()
                     var IdHospital = $(this).find("IdHospital").text()
                     var salario = $(this).find("Salario").text()
+                    hospitales.push(IdHospital)
+                    console.log(hospitales)
 
+
+                    // if ($(hospitales).find(IdHospital)){
+                    //     hospitales.push(IdHospital)
+                    //     console.log(hospitales)
+                    // }
                     html += "<tr>"
                     html += "<td>" + apellido + "</td>"
                     html += "<td>" + especialidad + "</td>"
@@ -145,6 +147,16 @@
                     html += "</tr>"
                 })
                 $("#tabladoctores tbody").append(html)
+                const opcionesselect =hospitales.filter((item, index)=>{
+                    return hospitales.indexOf(item) === index
+                })
+                opcionesselect.forEach(function(data){
+                    opt+="<option>"+data+"</option>"
+                    
+                    
+                })
+                console.log(opcionesselect);
+                $("#selecthospital").append(opt);
             })
         }
         function getDoctoresXML(apellido, especialidad, idDoctor, IdHospital, salario) { 
