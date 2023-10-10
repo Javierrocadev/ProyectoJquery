@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="web31hospitales-index.html">CRUD Hospital</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="web31hospitales-index.html">Home <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Departamentos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="web31hospitalNuevoDept.html">Nuevo departamento*</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <main>
+        <div class="m-4">
+            <h2>Añadir hospital</h2>
+            <form action="web31hospitales-index.html">
+                <div class="input-group input-group-lg my-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width: 200px ">ID hospital</span>
+                    </div>
+                    <input type="text" class="form-control" id="idhospital" aria-label="Large"
+                        aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-lg  my-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width: 200px ">nombre</span>
+                    </div>
+                    <input type="text" class="form-control" id="nombre" aria-label="Large"
+                        aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-lg  my-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width: 200px ">direccion</span>
+                    </div>
+                    <input type="text" class="form-control" id="direccion" aria-label="Large"
+                        aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-lg  my-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width: 200px ">telefono</span>
+                    </div>
+                    <input type="text" class="form-control" id="telefeno" aria-label="Large"
+                        aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <div class="input-group input-group-lg  my-4">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" style="width: 200px ">Camas totales</span>
+                    </div>
+                    <input type="text" class="form-control" id="camas" aria-label="Large"
+                        aria-describedby="inputGroup-sizing-sm">
+                </div>
+                <a class="btn btn-primary" id="btnInsertar">Insertar</a>
+            </form>
+        </div>
+    </main>
+    <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var urlHospital = "https://apicrudhospital.azurewebsites.net/"
+            $("#btnInsertar").click(function () {
+                // {
+                //     "idhospital": 19,
+                //         "nombre": "Provincial",
+                //             "direccion": "O' Donell 50",
+                //                 "telefono": "964-4256",
+                //                     "camas": 502
+                // },
+                var idhospital = parseInt($("#idhospital").val())
+                console.log(idhospital)
+                var nombre = $("#nombre").val()
+                console.log(nombre)
+                var direccion = $("#direccion").val()
+                var telefeno = $("#telefeno").val()
+                var camas = parseInt($("#camas").val())
+                var dataJSON = getJsonHospitales(idhospital, nombre, direccion, telefeno, camas)
+                console.log(dataJSON)
+                var request = "webresources/hospitales/post"
+                $.ajax({
+                    "url": urlHospital + request,
+                    "method": "POST",
+                    "data": dataJSON,
+                    success: function () {
+                        console.log("insertado")
+
+                    }
+                })
+            });
+            function getJsonHospitales(idhospital, nombre, direccion, telefeno, camas) {
+                //debemos crear un objeto JSON, por lo que necesitamos un objeto en javascript
+                var hospital = new Object();
+                //llenamos el objeto JSON con los datos exacto que apareceran en el JSON
+                hospital.idhospital = idhospital;
+                hospital.nombre = nombre;
+                hospital.direccion = direccion;
+                hospital.telefeno = telefeno;
+                hospital.camas = camas;
+                var dataJson = JSON.stringify(hospital);
+                return dataJson;
+            }
+
+        });
+    </script>
+</body>
+
+</html>

@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
 </head>
 
 <body>
     <h1>tareas logic app</h1>
     <select name="selectoficios" id="selectoficios"></select>
-    <table id="tablaempleados" border="1">
-        <thead>
+    <input type="text" name="" id="cajaincremento">
+    <button id="botonincrementar" class="btn-info">Incrementar salarios</button>
+    <table id="tablaempleados" border="1" class="table table-striped ">
+        <thead class="thead-dark">
             <tr>
                 <th>idEmpleado </th>
                 <th>apellido </th>
@@ -23,6 +26,7 @@
         <tbody></tbody>
     </table>
     <script src="js/jquery-3.7.1.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
     <script>
         var urlEmpleadosaction = "https://apiempleadosaction.azurewebsites.net/"
 
@@ -38,7 +42,32 @@
             $("#selectoficios").change(function () {
                 var seleccionado = $("#selectoficios").find(":selected").val()
                 console.log(seleccionado)
-                var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" + seleccionado
+                cargarEmpleados(seleccionado)
+
+            })
+
+
+            $("#botonincrementar").click(function () {
+                var incremento = parseInt($("#cajaincremento").val())
+                if (confirm("desea continuar con el incremento de" + incremento + " euro") == true) {
+                    var oficio = $("#selectoficios").val()
+
+                    var request = "api/Empleados/incrementarsalariooficios/" + oficio + "/" + incremento
+                    $.ajax({
+                        "url": urlEmpleadosaction + request,
+                        "type": "PUT",
+                        success: function () {
+                            console.log("salario incrementado")
+                            cargarEmpleados(oficio)
+                        }
+                    })
+                } else {
+                    alert("operacin cancelada!");
+                }
+
+            })
+            function cargarEmpleados(oficio) {
+                var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" + oficio
                 var html = "";
                 $.getJSON(urlEmpleadosaction + request, function (data) {
                     console.log("leyendo servicio")
@@ -53,7 +82,7 @@
                     })
                     $("#tablaempleados tbody").html(html)
                 })
-            })
+            }
         });
     </script>
 </body>

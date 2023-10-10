@@ -10,6 +10,8 @@
 <body>
     <h1>tareas logic app</h1>
     <select name="selectoficios" id="selectoficios"></select>
+    <input type="text" name="" id="cajaincremento">
+    <button id="botonincrementar">Incrementar salarios</button>
     <table id="tablaempleados" border="1">
         <thead>
             <tr>
@@ -38,7 +40,26 @@
             $("#selectoficios").change(function () {
                 var seleccionado = $("#selectoficios").find(":selected").val()
                 console.log(seleccionado)
-                var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" + seleccionado
+                cargarEmpleados(seleccionado)
+
+            })
+
+
+            $("#botonincrementar").click(function () {
+                var oficio = $("#selectoficios").val()
+                var incremento = parseInt($("#cajaincremento").val())
+                var request = "api/Empleados/incrementarsalariooficios/" + oficio + "/" + incremento
+                $.ajax({
+                    "url": urlEmpleadosaction + request,
+                    "type": "PUT",
+                    success: function () {
+                        console.log("salario incrementado")
+                        cargarEmpleados(oficio)
+                    }
+                })
+            })
+            function cargarEmpleados(oficio) {
+                var request = "/api/Empleados/GetEmpleadosOficio/empleadosoficio/" + oficio
                 var html = "";
                 $.getJSON(urlEmpleadosaction + request, function (data) {
                     console.log("leyendo servicio")
@@ -53,7 +74,7 @@
                     })
                     $("#tablaempleados tbody").html(html)
                 })
-            })
+            }
         });
     </script>
 </body>
