@@ -27,16 +27,16 @@
                             class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Departamentos</a>
+                    <a class="nav-link" href="#">Hospitales</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="web31hospitalNuevoDept.html">Nuevo departamento*</a>
+                    <a class="nav-link" href="web31hospitalNuevoHospital.html">Nuevo hospital*</a>
                 </li>
             </ul>
         </div>
     </nav>
     <main>
-        <h1>Lista Departamentos</h1>
+        <h1>Lista hospitales</h1>
         <table id="tablahospital" border="1" class="table table-striped ">
             <thead class="thead-dark">
                 <tr>
@@ -72,15 +72,58 @@
                     html += "<td>" + hospital.direccion + "</td>"
                     html += "<td>" + hospital.telefono + "</td>"
                     html += "<td>" + hospital.camas + "</td>"
-                    html += "<td>" + "<button type='button' class='btn btn-info mx-2' id='" + hospital.idhospital + "'>Modify 🔃</button>"
-                        + "<button type='button' class='btn btn-danger mx-2' id='" + hospital.idhospital + "'>Delete 🗑️</button>"
+                    html += "<td>" + "<button type='button' class='btn btn-info mx-2 btnmodify' id='btnmodify'  value='" + hospital.idhospital + "'>Modify 🔃</button>"
+                        + "<button type='button' class='btn btn-danger mx-2 btndelete' id='btndelete'  value='" + hospital.idhospital + "'>Delete 🗑️</button>"
                         + "</td>"
                     html += "</tr>"
+                  
+
+
                 });
-                $("#tablahospital tbody").html(html)
+              
+                $("#tablahospital tbody").html(html);
+                $(".btndelete").click(function(){
+                    var idhospital = $(this).val()
+                    console.log(idhospital)
+                    
+                    var request = "webresources/hospitales/delete/" + idhospital;
+                    console.log(urlHospital+request)
+                    $.ajax({
+                        "url":urlHospital+request,
+                        "type": "DELETE",
+                        success:function(){
+                            console.log("delete successfully")
+                            window.location.href="web31hospitales-index.html"
+                        }
+                    })
+                });
+                $(".btnmodify").click(function(){
+                    var idhospital = $(this).val()
+                    window.location.href="web31hospitalModificar.html?id="+idhospital;
+                })
             });
+                
+      
+             
         });
     </script>
 </body>
 
 </html>
+
+<!-- $("#btndelete").click(function(){
+    var idhospital = $(this).val()
+    console.log(idhospital)
+    
+    var request = "webresources/hospitales/delete/" + idhospital;
+
+    $.ajax({
+        "url":urlHospital+request,
+        "dataType": "application/json",
+        "type": "DELETE",
+        success:function(){
+            console.log("delete successfully")
+            windowd.reload();
+        }
+    })
+}); -->
